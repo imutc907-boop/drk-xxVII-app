@@ -1,0 +1,19 @@
+name: Build Android APK
+on: push
+jobs:
+  build:
+    runs-on: ubuntu‑latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node‑version: 20
+      - run: npm install
+      - run: npx cap sync android
+      - run: cd android && ./gradlew assembleDebug
+      - name: Simpan APK
+        uses: actions/upload‑artifact@v5
+        with:
+          name: file‑apk‑hasil
+          path: android/app/build/outputs/apk/debug/app‑debug.apk
